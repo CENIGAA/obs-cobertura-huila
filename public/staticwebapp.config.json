@@ -1,7 +1,7 @@
 {
   "navigationFallback": {
     "rewrite": "/index.html",
-    "exclude": ["/assets/**", "/data/**", "/*.{png,jpg,gif,webp,svg,ico,json,geojson}"]
+    "exclude": ["/assets/*", "/data/*"]
   },
   "globalHeaders": {
     "X-Frame-Options": "SAMEORIGIN",
