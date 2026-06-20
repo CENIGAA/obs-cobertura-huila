@@ -5,7 +5,9 @@ import reactRefresh from 'eslint-plugin-react-refresh'
 import { defineConfig, globalIgnores } from 'eslint/config'
 
 export default defineConfig([
-  globalIgnores(['dist']),
+  // gee/ contiene scripts para el editor de Google Earth Engine (globals ee,
+  // Map, Export, ui). No forman parte del build web, se excluyen del lint.
+  globalIgnores(['dist', 'gee']),
   {
     files: ['**/*.{js,jsx}'],
     extends: [
