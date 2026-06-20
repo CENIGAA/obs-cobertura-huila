@@ -94,13 +94,16 @@ function nbr(img) {
   return img.normalizedDifference(['B8', 'B12']).rename('NBR');
 }
 
-function composito(fechaIni, fechaFin) {
-  var col = ee.ImageCollection('COPERNICUS/S2_SR_HARMONIZED')
+// Devuelve la coleccion de NBR (una imagen 'NBR' por escena) para la ventana.
+// Se retorna la coleccion (no la mediana) para poder verificar su tamanio
+// antes de operar y evitar imagenes sin bandas en ventanas vacias.
+function nbrColeccion(fechaIni, fechaFin) {
+  return ee.ImageCollection('COPERNICUS/S2_SR_HARMONIZED')
     .filterBounds(roi)
     .filterDate(fechaIni, fechaFin)
     .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', MAX_NUBOSIDAD))
-    .map(maskS2clouds);
-  return ee.Image(col.map(nbr).median()).clip(roi);
+    .map(maskS2clouds)
+    .map(nbr);
 }
 
 // ----------------------------------------------------------------------------
@@ -139,10 +142,23 @@ function mascaraProximidadHotspots(anio) {
 // 5. Cicatriz binaria por anio (server-side, con gating FIRMS)
 // ----------------------------------------------------------------------------
 function cicatrizAnio(anio) {
-  var pre  = composito(anio + VENTANA_PRE.ini,  anio + VENTANA_PRE.fin);
-  var post = composito(anio + VENTANA_POST.ini, anio + VENTANA_POST.fin);
+  var colPre  = nbrColeccion(anio + VENTANA_PRE.ini,  anio + VENTANA_PRE.fin);
+  var colPost = nbrColeccion(anio + VENTANA_POST.ini, anio + VENTANA_POST.fin);
 
-  var dnbr = pre.subtract(post).rename('dNBR');
+  var preSize = colPre.size();
+  var postSize = colPost.size();
+
+  // medianas (banda 'NBR' cuando la coleccion no esta vacia)
+  var nbrPre = colPre.median();
+  var nbrPost = colPost.median();
+
+  // Si alguna ventana esta vacia, la mediana no tiene bandas y subtract falla.
+  // Guardamos con ee.Algorithms.If: dNBR = 0 (sin cicatriz) en ese caso.
+  var dnbr = ee.Image(ee.Algorithms.If(
+    preSize.gt(0).and(postSize.gt(0)),
+    nbrPre.subtract(nbrPost).rename('dNBR'),
+    ee.Image.constant(0).rename('dNBR')
+  ));
   var confirmada = dnbr.gte(DNBR_CONFIRMADA);
 
   if (USAR_CONFIRMACION_VIIRS) {
