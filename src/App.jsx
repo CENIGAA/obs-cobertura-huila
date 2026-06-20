@@ -2,6 +2,7 @@ import { lazy, Suspense } from 'react'
 import Header from './components/Header'
 import HeroSection from './components/HeroSection'
 import Aliados from './components/Aliados'
+import InfraestructuraCientifica from './components/InfraestructuraCientifica'
 import Footer from './components/Footer'
 
 // Carga diferida: recharts es pesado y se separa en su propio chunk.
@@ -21,6 +22,7 @@ export default function App() {
           <SeriesTemporales />
         </Suspense>
         <Aliados />
+        <InfraestructuraCientifica />
       </main>
       <Footer />
     </div>
