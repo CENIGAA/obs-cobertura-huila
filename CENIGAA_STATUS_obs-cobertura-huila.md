@@ -1,7 +1,7 @@
-# CENIGAA_STATUS — obs-cobertura-huila
+# CENIGAA_STATUS · obs-cobertura-huila
 
-**Sesión:** 2026-06-19
-**Nodo:** ROGAA Nodo 4 — Observatorio de Coberturas de la Tierra del Huila
+**Sesión:** 2026-06-19 / 2026-06-20
+**Nodo:** ROGAA Nodo 4 · Observatorio de Coberturas de la Tierra del Huila
 **Stack:** React 19 + Vite 8 + Tailwind CSS 3 + Leaflet 1.9 + lucide-react
 **Repo:** github.com/CENIGAA/obs-cobertura-huila (branch: main)
 **Color Nodo 4:** #43B02A (verde CENIGAA) · Navy #162341
@@ -11,11 +11,11 @@
 ## URL de producción
 
 https://obs-cobertura-huila.cenigaa.org
-(scaffold ya desplegado en Azure; este commit actualiza mapa + favicon + aliados)
+(scaffold ya desplegado en Azure; estos cambios actualizan mapa + favicon + aliados + ajustes de UI)
 
 ---
 
-## TAREA 1 — Mapa Leaflet con GeoJSON real ✅
+## TAREA 1 · Mapa Leaflet con GeoJSON real (OK)
 
 Reemplazado el rectángulo placeholder por las dos capas reales con `L.geoJSON`:
 
@@ -29,10 +29,10 @@ Reemplazado el rectángulo placeholder por las dos capas reales con `L.geoJSON`:
   Estilo minimalista: fondo blanco, borde #43B02A, texto navy.
 - **fitBounds** automático al polígono departamental tras cargar.
 - **Carga de datos:** `fetch` paralelo de `/data/*.geojson` con estado
-  `loading` (spinner "Cargando mapa…") y `error` con overlay.
+  `loading` (spinner "Cargando mapa...") y `error` con overlay.
 
 Campo de nombre identificado inspeccionando el GeoJSON: `nombre`
-(no `MPIO_CNMBR` — el script de conversión ya renombró las columnas).
+(no `MPIO_CNMBR`; el script de conversión ya renombró las columnas).
 Propiedades reales: `{ nombre, cod_dane, area_km2 }`.
 
 ### Descripción visual (verificado con Chrome headless 1280px y 375px)
@@ -41,7 +41,7 @@ rectángulo) sobre CartoDB Light, con los 37 municipios dibujados como
 subdivisiones de borde navy fino. Encuadre automático centrado en el
 departamento. Capturas: `scratchpad/huila_1280.png`, `huila_375.png`.
 
-## TAREA 2 — Favicon CENIGAA ✅
+## TAREA 2 · Favicon CENIGAA (OK)
 
 `index.html`: reemplazado el favicon roto (`cenigaa-favicon.png`, inexistente)
 por SVG + apple-touch-icon PNG:
@@ -54,7 +54,7 @@ por SVG + apple-touch-icon PNG:
 Ambos sirven 200 OK. Nombres exactos respetados (mayúsculas) para no romper
 el deploy en Azure (case-sensitive).
 
-## TAREA 3 — Sección Aliados institucionales ✅
+## TAREA 3 · Sección Aliados institucionales (OK)
 
 Nuevo componente `src/components/Aliados.jsx`, montado en `App.jsx` entre
 `HeroSection` y `Footer`:
@@ -62,9 +62,29 @@ Nuevo componente `src/components/Aliados.jsx`, montado en `App.jsx` entre
 - Fondo blanco, centrado, título "Aliados institucionales" en navy,
   subtítulo "Con el apoyo de".
 - Logos: `Gobernacion_Huila.png` y `CAM.svg`, altura 60px, ancho auto.
-- Escala de grises + opacidad 0.7 → color pleno al hover (transición 300ms).
+- Escala de grises + opacidad 0.7 a color pleno al hover (transición 300ms).
 - Sin texto bajo los logos; nombre de entidad en `alt`.
-- Espaciado generoso (gap 12/20). CENIGAA NO incluido (es el autor → header).
+- Espaciado generoso (gap 12/20). CENIGAA NO incluido (es el autor, va en header).
+
+---
+
+## Ajustes de UI (sesión 2026-06-20)
+
+- **Botón menú "ROGAA"** (`Header.jsx`): renombrado de "Red ROGAA" a "ROGAA"
+  y enlazado a `https://www.cenigaa.org/views/rogaa.html`.
+- **Logo CENIGAA en footer** (`Footer.jsx`): el texto "CENIGAA" se reemplazó
+  por el logo blanco `logo_cenigaa_T_Blanco.png` (altura 48px), adecuado al
+  fondo navy.
+- **Carácter em dash eliminado** de todo el sitio (título, meta description,
+  footer, comentarios CSS/JS). Se usa "·" como separador o "-" en su lugar.
+
+## Regla de configuración: prohibido el em dash
+
+- `.claude/hooks/block-emdash.sh`: hook que inspecciona el contenido de
+  Write/Edit/MultiEdit y deniega la operación si detecta el carácter.
+- `.claude/settings.json`: hook `PreToolUse` con matcher `Write|Edit|MultiEdit`.
+- Verificado activo (bloquea cualquier intento de escribir el carácter).
+  Revisable/desactivable desde `/hooks`.
 
 ---
 
@@ -72,12 +92,12 @@ Nuevo componente `src/components/Aliados.jsx`, montado en `App.jsx` entre
 
 | # | Verificación | Resultado |
 |---|---|---|
-| 1 | `npm run dev` + GeoJSON sin errores | ✅ ambos GeoJSON 200 (56 KB / 284 KB); mapa renderiza |
-| 2 | 37 municipios con tooltip al hover | ✅ tooltip por feature (nombre + área) |
-| 3 | Favicon en pestaña | ✅ CENIGAA.svg 200, referenciado en index.html |
-| 4 | Aliados a 1280px y 375px | ✅ verificado con capturas headless |
-| 5 | `npm run build` | ✅ sin errores (1771 módulos, 1.0s) |
-| 6 | `npm run lint` | ✅ sin warnings/errores |
+| 1 | `npm run dev` + GeoJSON sin errores | OK · ambos GeoJSON 200 (56 KB / 284 KB); mapa renderiza |
+| 2 | 37 municipios con tooltip al hover | OK · tooltip por feature (nombre + área) |
+| 3 | Favicon en pestaña | OK · CENIGAA.svg 200, referenciado en index.html |
+| 4 | Aliados a 1280px y 375px | OK · verificado con capturas headless |
+| 5 | `npm run build` | OK · sin errores (1771 módulos, 1.0s) |
+| 6 | `npm run lint` | OK · sin warnings/errores |
 
 ### Salida de `npm run build`
 ```
@@ -89,15 +109,16 @@ dist/assets/index-Wh4NZA_H.js   353.10 kB │ gzip: 107.74 kB
 
 ---
 
-## Commit
+## Commits
 
-- Hash: _(ver git log tras el commit de esta sesión)_
-- Mensaje: `feat: mapa GeoJSON real Huila + favicon + aliados institucionales`
+- `7168ade` · feat: mapa GeoJSON real Huila + favicon + aliados institucionales
+- `b704d54` · feat: GeoJSON Huila departamento + 37 municipios (MGN2025 DANE)
+- _(pendiente)_ · ajustes UI: botón ROGAA + logo footer + eliminación em dash + hook config
 
 ## Avance estimado
 
-**18% → ~30%**
+**18% a ~32%**
 Hero con mapa interactivo real (37 municipios + tooltips), identidad visual
-(favicon) y aliados institucionales completos. Pendiente: capas de
-coberturas (CLC/MapBiomas), series temporales, sección de datos/DOI y
-metodología.
+(favicon + logo footer), aliados institucionales y ajustes de navegación.
+Pendiente: capas de coberturas (CLC/MapBiomas), series temporales, sección
+de datos/DOI y metodología.

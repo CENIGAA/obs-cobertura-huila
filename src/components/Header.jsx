@@ -38,10 +38,10 @@ export default function Header() {
                className="text-sm text-gray-600 hover:text-rogaa-green transition-colors font-medium">
               Metodología
             </a>
-            <a href="https://observatorios.cenigaa.org"
+            <a href="https://www.cenigaa.org/views/rogaa.html"
                className="text-sm px-4 py-1.5 rounded-full border font-medium transition-colors"
                style={{ borderColor: '#43B02A', color: '#43B02A' }}>
-              Red ROGAA
+              ROGAA
             </a>
           </nav>
         </div>

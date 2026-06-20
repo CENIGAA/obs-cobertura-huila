@@ -5,7 +5,11 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
-            <p className="font-bold text-lg mb-1">CENIGAA</p>
+            <img
+              src="/assets/images/logo/logo_cenigaa_T_Blanco.png"
+              alt="CENIGAA"
+              className="h-12 w-auto mb-3"
+            />
             <p className="text-gray-400 text-sm leading-relaxed">
               Centro de Investigación en Ciencias<br />
               y Recursos GeoAgroAmbientales
@@ -13,7 +17,7 @@ export default function Footer() {
             <p className="text-xs text-gray-500 mt-3 italic">Desarrollo Sustentable.</p>
           </div>
           <div>
-            <p className="font-semibold text-sm mb-3 text-gray-300">Red ROGAA — Huila</p>
+            <p className="font-semibold text-sm mb-3 text-gray-300">Red ROGAA · Huila</p>
             <ul className="space-y-1.5 text-sm text-gray-400">
               <li><a href="https://obs-clima-huila.cenigaa.org"
                      className="hover:text-white transition-colors">Observatorio Climático</a></li>

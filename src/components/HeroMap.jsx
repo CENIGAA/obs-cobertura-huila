@@ -75,10 +75,10 @@ export default function HeroMap() {
         ])
         if (cancelled || !mapInstance.current) return
 
-        // Capa departamento — contorno de referencia, sin interactividad.
+        // Capa departamento - contorno de referencia, sin interactividad.
         const deptoLayer = L.geoJSON(depto, { style: DEPTO_STYLE }).addTo(map)
 
-        // Capa municipios — borde fino, hover interactivo con tooltip.
+        // Capa municipios - borde fino, hover interactivo con tooltip.
         const mpioLayer = L.geoJSON(mpios, {
           style: () => ({ ...MPIO_STYLE }),
           onEachFeature: (feature, layer) => {
